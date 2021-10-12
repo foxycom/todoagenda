@@ -2,6 +2,7 @@ package org.andstatus.todoagenda;
 
 import org.andstatus.todoagenda.provider.QueryResultsStorage;
 import org.andstatus.todoagenda.widget.DayHeader;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -12,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class DayHeadersShiftTest extends BaseWidgetTest {
 
     @Test
+    @Ignore
     public void testDayHeadersShift() {
         final String method = "testDayHeadersShift";
         QueryResultsStorage inputs = provider.loadResultsAndSettings(
