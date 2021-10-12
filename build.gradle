@@ -38,6 +38,11 @@ buildscript {
         }
     }
 }
+
+ext {
+    jacocoEnabled = System.properties.getProperty("jacocoEnabled") ?: "false"
+}
+
 allprojects {
     repositories {
         google()
