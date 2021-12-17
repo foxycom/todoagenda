@@ -2,7 +2,7 @@
 GW=./gradlew
 ABC=../../scripts/abc.sh
 ABC_CFG=../../scripts/.abc-config
-JAVA_OPTS=" -Dabc.instrument.fields.operations -Dabc.taint.android.intents -Dabc.instrument.include=org.andstatus.todoagenda"
+JAVA_OPTS=" -Dabc.instrument.multithreaded -Dabc.instrument.fields.operations -Dabc.taint.android.intents -Dabc.instrument.include=org.andstatus.todoagenda"
 
 ADB := $(shell $(ABC) show-config  ANDROID_ADB_EXE | sed -e "s|ANDROID_ADB_EXE=||")
 # Create a list of expected test executions from tests.txt Those corresponds to the traces
@@ -103,8 +103,13 @@ $(ESPRESSO_TESTS) : app-androidTest.apk app-instrumented.apk
 	@echo "Tracing test $(TEST_NAME)"
 #	Log directly to the expected file
 	$(ADB) shell am instrument -w -e class $(TEST_NAME) org.andstatus.todoagenda.tests/androidx.test.runner.AndroidJUnitRunner 2>&1 | tee $(@)
+
 #	Copy the traces if the previous command succeded
 	export ABC_CONFIG=$(ABC_CFG) && $(ABC) copy-traces org.andstatus.todoagenda ./traces/$(TEST_NAME) force-clean
+	# NOTE: We need to replace the name of the threads from Instr: androidx.test.runner.AndroidJUnitRunner to UI:main
+	find ./traces/$(TEST_NAME) -iname "Trace*.txt" -exec sed -i .bkp -e 's|\[Instr: androidx.test.runner.AndroidJUnitRunner\]|[UI:main]|g' {} \;
+	find ./traces/$(TEST_NAME) -iname "Trace*.bkp" -exec $(RM) -v {} \;
+
 
 # Carving all requires to have all of them traced
 # This will always run because it's a phony target
