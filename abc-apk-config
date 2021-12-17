@@ -1,8 +1,10 @@
 [MakeConfiguration]
 make_app_package = org.andstatus.todoagenda
+make_app_debug_package = org.andstatus.todoagenda
 make_original_apk_path = app/build/outputs/apk/debug/TodoAgenda-4.4.0-debug.apk
 make_android_test_apk_path = app/build/outputs/apk/androidTest/debug/TodoAgenda-4.4.0-debug-androidTest.apk
 make_assemble_apk_command = assembleDebug
 make_assemble_android_test_command = assembleAndroidTest
 make_test_runner = org.andstatus.todoagenda.tests/androidx.test.runner.AndroidJUnitRunner
 make_ui_coverage_path = app/build/outputs/code_coverage/debugAndroidTest/connected/*coverage.ec
+make_permissions =
