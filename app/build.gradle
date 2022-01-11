@@ -120,6 +120,13 @@ android {
                     reports.junitXml.destination = file("$testReportPrefix/$junitXmlTestTaskName")
                     reports.html.destination = file("$testReportPrefix/$junitXmlTestTaskName")
                 }
+
+                filter {
+                    //specific test method
+                    if (project.hasProperty('carvedTestsFilter')){
+                        includeTestsMatching project.carvedTestsFilter
+                    }
+                }
             }
         }
     }
